@@ -2619,15 +2619,18 @@ video {
   }
 }
 
-// short drawers: columns side by side, so the height goes to the content
-// rather than to stacking, and the close button stays in the corner instead of
-// dropping below both columns
 #app.app-is-small.app-is-portrait #tour-controls,
-#app.app-is-landscape #tour-controls {
+#app.app-is-tall-landscape #tour-controls {
   flex-direction: row;
+
+  .v-icon {
+    position: static;
+    align-self: flex-start;
+  }
 }
 
 #tour-controls {
+  position: relative; // for the close button
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -2640,8 +2643,11 @@ video {
     flex: 1 1 0;
   }
 
+  // stacked, this would otherwise drop below both columns
   .v-icon {
-    align-self: flex-start;
+    position: absolute;
+    top: 0;
+    right: 0;
     cursor: pointer;
   }
 }
