@@ -160,8 +160,9 @@ p {
 }
 
 // the landscape box is the short floating one (~50vh), so a step with a full
-// paragraph needs tighter spacing to fit
-#app.app-is-landscape #tour-text p {
+// paragraph needs tighter spacing to fit. Short landscape is a full-height
+// column instead, and has the room for normal spacing.
+#app.app-is-tall-landscape #tour-text p {
   margin-top: 0.25rem;
 }
 
@@ -265,9 +266,10 @@ p {
   }
 }
 
-// landscape is the short floating box in every size now, so the buttons shrink
-// to leave the step's text as much of it as possible
-#app.app-is-landscape .tour-text-controls .v-btn {
+// landscape is the short floating box, so the buttons shrink to leave the
+// step's text as much of it as possible. Not in short landscape, where the
+// column is full height and shrinking a phone's tap targets only hurts.
+#app.app-is-tall-landscape .tour-text-controls .v-btn {
   --v-btn-size: 0.75rem;
   --v-btn-height: 28px;
   font-size: var(--v-btn-size);

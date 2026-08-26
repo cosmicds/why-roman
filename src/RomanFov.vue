@@ -6,6 +6,7 @@
       'app-is-small': smallSize,
       'app-is-portrait': isPortrait,
       'app-is-landscape': !isPortrait,
+      'app-is-tall-landscape': tallLandscape,
     }"
   >
     <div id="main-content">
@@ -323,7 +324,7 @@
             justify="center"
             class="pt-4"
             :style="{
-              'margin-left': !isPortrait && !showTextSheet && (inTour || showOptions) ? '34%' : '0',
+              'margin-left': tallLandscape && !showTextSheet && (inTour || showOptions) ? '34%' : '0',
             }"
           >
             <div
@@ -642,6 +643,11 @@ useWWTKeyboardControls(store);
 const { height, width, smAndDown } = useDisplay();
 
 const isPortrait = computed(() => height.value >= width.value);
+// the only layout where the tour sheet floats instead of pushing like
+// #side-drawer does. Its box is capped at 50vh, which stops being enough to
+// read on a phone turned sideways, so below this it stays a column.
+const TALL_LANDSCAPE_HEIGHT = 600;
+const tallLandscape = computed(() => !isPortrait.value && height.value >= TALL_LANDSCAPE_HEIGHT);
 
 const props = withDefaults(defineProps<RomanFovProps>(), {
   wwtNamespace: "roman-fov",
@@ -2208,7 +2214,7 @@ body {
 
 // small devices in landscape get a wider share of the row, since there's
 // less absolute width to work with than on a large screen
-#app.app-is-small.app-is-portrait.app-is-landscape #side-drawer.side-drawer-open {
+#app.app-is-small.app-is-landscape #side-drawer.side-drawer-open {
   width: 40%;
 }
 
@@ -2777,7 +2783,7 @@ h1.startup-screen-title {
 // corner instead of a full-height column full of deadspace. #app fills the
 // viewport 1:1, so position: fixed here lands in the same place as
 // anchoring to #app would.
-#app.app-is-landscape #side-drawer-tour-sheet {
+#app.app-is-tall-landscape #side-drawer-tour-sheet {
   --container-width: 34vw;
   --container-height: 50vh; // matches max-height below
 
@@ -2793,6 +2799,14 @@ h1.startup-screen-title {
     height: min-content;
     max-height: 50vh;
     bottom: 1rem;
+  }
+}
+
+#app.app-is-small.app-is-landscape #side-drawer-tour-sheet {
+  --container-width: 40vw;
+
+  &.side-drawer-open {
+    width: 40%;
   }
 }
 </style>
