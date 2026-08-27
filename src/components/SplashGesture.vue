@@ -5,7 +5,7 @@
     :content-class="['gesture-preview', smallScreen ? 'small' : '']"
     rounded="large"
     :timeout="6000000"
-    location="bottom left"
+    location="left center"
     attach="#main-content"
     contained
     close-on-content-click
@@ -115,12 +115,6 @@ onUnmounted(() => {
   padding: 0 0 1rem 1rem;
 }
 
-/* large-landscape floats TourSheet's box over the same lower-left corner of
-   #main-content (RomanFov.vue's #app.app-is-large-landscape #side-drawer,
-   width: 34%) that this would otherwise sit in -- push right to clear it. */
-#app.app-is-large-landscape .v-overlay.gesture-preview-overlay {
-  padding-left: calc(34% + 1rem);
-}
 
 .v-overlay__content.v-snackbar__wrapper.v-snackbar--variant-elevated.gesture-preview {
   border: 1px solid var(--accent-color);
