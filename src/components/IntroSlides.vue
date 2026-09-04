@@ -29,7 +29,7 @@
           <div :class="['intro-slide-body', sideBySide ? 'intro-slide-body-split' : '']">
             <div class="intro-slide-text">
               <p>
-                On August 30, 2026, NASA and SpaceX will launch the <strong>Nancy Grace Roman Space Telescope</strong> into orbit.
+                On August 30, 2026, NASA and SpaceX launched the <strong>Nancy Grace Roman Space Telescope</strong> into orbit.
               </p>
               <p>
                 <!-- It will travel to “L2” X miles from Earth, near the James Webb Space Telescope.  -->
