@@ -29,7 +29,7 @@
           <div :class="['intro-slide-body', sideBySide ? 'intro-slide-body-split' : '']">
             <div class="intro-slide-text">
               <p>
-                On August 30, 2026, NASA and SpaceX will launch the <strong>Nancy Grace Roman Space Telescope</strong> into orbit.
+                On August 30, 2026, NASA and SpaceX launched the <strong>Nancy Grace Roman Space Telescope</strong> into orbit.
               </p>
               <p>
                 <!-- It will travel to “L2” X miles from Earth, near the James Webb Space Telescope.  -->
@@ -42,6 +42,15 @@
                 Nancy Grace Roman, NASA's first Chief Astronomer and the &ldquo;Mother of Hubble.&rdquo;
               </figcaption>
             </figure>
+          </div>
+          <div>
+            <v-checkbox
+              v-model="dontShowAgain"
+              class="mx-auto text-caption dont-show-checkbox"
+              label="Don't replay intro on future visits"
+              hide-details
+              density="compact"
+            />
           </div>
           <!-- <video loop src="/JWST_L2_Orbit_Animation_HD.webm" /> -->
         </v-window-item>
@@ -77,6 +86,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { useLocalStorage } from '@vueuse/core';
 import { useDisplay } from 'vuetify';
 import type { VBtn } from 'vuetify/components/VBtn';
 
@@ -89,7 +99,7 @@ const smallSize = computed(() => smAndDown.value);
 // the two sit side by side instead. Elsewhere the dialog is narrow and tall
 // (500px wide on desktop), where stacking is the better fit.
 const sideBySide = computed(() => smallSize.value && width.value > height.value);
-
+const dontShowAgain = useLocalStorage<boolean>('why-roman:dontshowIntroTourOnStartup', false);
 
 
 const open = defineModel<boolean>({default: true});
@@ -247,6 +257,18 @@ const NUM_SLIDES = 1;
   font-size: 1.2rem;
   text-transform: uppercase;
   border: 1px solid var(--accent-color);
+}
+
+.intro-slides-container:not(.intro-slides-small) .dont-show-checkbox {
+  margin-top: 1rem;
+}
+
+#intro-slides .dont-show-checkbox .v-label {
+  font-size: 0.9rem !important;
+}
+
+#intro-slides .v-input.v-checkbox.dont-show-checkbox {
+  width: fit-content;
 }
 
 </style>
