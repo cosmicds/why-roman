@@ -158,7 +158,6 @@
                 Go to Andromeda
               </v-btn>
             </div>
-
           </div>
         </TourSheet>
       </div>
@@ -243,11 +242,11 @@
       <!-- :scrim bound, not scrim="false": the bare attribute passes the string
            "false", which is truthy, so Vuetify dimmed the whole app behind it -->
       <v-dialog
+        id="privacy-popup-dialog"
+        v-model="showPrivacyDialog"
         :scrim="false"
         :persistent="true"
         no-click-animation
-        v-model="showPrivacyDialog"
-        id="privacy-popup-dialog"
       >
         <v-card
           ref="privacyCard"
@@ -267,7 +266,7 @@
               target="_blank"
               rel="noopener noreferrer"
             >
-            Privacy Policy
+              Privacy Policy
             </v-btn>
             <v-btn
               color="#ff6666"
@@ -276,7 +275,7 @@
                 showPrivacyDialog = false;
               }"
             >
-            Opt out
+              Opt out
             </v-btn>
             <v-btn 
               color="green"
@@ -574,8 +573,8 @@
             class="pt-4"
           >
             <div
-              id="moons-control" 
-              v-if="showMoons"
+              v-if="showMoons" 
+              id="moons-control"
               class="opacity-slider-row info-box"
             >
               <v-slider
@@ -2896,11 +2895,11 @@ body {
   justify-content: space-between; // pushes top and bottom content apart
 }
 
-#wwt-overlay > * > * {
-  // pointer-events: auto;
-  // outline: 1px solid orange;  // debug
-  // background-color: rgba(164, 34, 34, 0.5);
-}
+// #wwt-overlay > * > * {
+//   // pointer-events: auto;
+//   // outline: 1px solid orange;  // debug
+//   // background-color: rgba(164, 34, 34, 0.5);
+// }
 
 #shadow {
   width: 100%;
