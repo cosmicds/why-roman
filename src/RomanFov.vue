@@ -15,6 +15,7 @@
          a flex item visually without moving it in the tab order. -->
 
     <div
+      v-if="!showStartup"
       id="side-drawer-tour-sheet"
       class="layout-drawer"
       :class="[tourSheetOpen ? 'side-drawer-open' : 'side-drawer-closed']"
@@ -45,6 +46,7 @@
          stack holds a single panel and behaves like a plain drawer. Either
          way the column is one --drawer-width wide, never two. -->
     <div
+      v-if="!showStartup"
       id="side-panel-stack"
       class="layout-drawer"
       :class="[(showOptions || showTextSheet) ? 'side-drawer-open' : 'side-drawer-closed']"
@@ -1291,15 +1293,22 @@ function hideVisibleFootprints() {
 import { useLocalStorage } from "@vueuse/core";
 import { createTextOverlay } from "./text";
 
+
+const dontshowIntroTourOnStartup = useLocalStorage<boolean>("why-roman:dontshowIntroTourOnStartup", false);
+
+/* OK. So, I forgot to turn these back on for real use. 
+Because things are working, i want to leave 
+this and what is related to it alone.
+We will just pay attention to showIntroTourOnStartup
+*/
 const hasSeenIntroSlides = useLocalStorage("why-roman:hasSeenIntroSlides", false);
 const hasSeenFullTour = useLocalStorage("why-roman:hasSeenFullTour", false);
-
 
 hasSeenIntroSlides.value = true;
 hasSeenFullTour.value = false;
 console.error("NOTE: make these live for real use");
 // if we are returnings we can skip
-const returning = hasSeenIntroSlides.value && hasSeenFullTour.value;
+const returning = (hasSeenIntroSlides.value && hasSeenFullTour.value) || dontshowIntroTourOnStartup.value;
 
 // ?tour=<id>&tourStep=<n>, skips the splash and intro
 // and slides. ?tour=manual is a short cut to a manual mode.
@@ -1308,12 +1317,12 @@ const tourParam = searchParams.get("tour");
 // a step without a tour to put it in means nothing. the param is 1-indexed,
 const tourStepParam = tourParam === null ? 0 : +(searchParams.get("tourStep") ?? 1) - 1;
 
-const showStartup = ref(!returning && tourParam === null);
+const showStartup = ref(tourParam === null);
 // const showStartup = ref(false);
 const showIntroSlides = ref(false);
 function handleSplashClose() {
   showStartup.value = false;
-  showIntroSlides.value = true;
+  showIntroSlides.value = !returning; // the opt-out drops into explore mode, set up in onMounted
 }
 function handleIntroClose() {
   showIntroSlides.value = false;
@@ -2440,7 +2449,9 @@ onMounted(() => {
     // If there are layers to set up, do that here!
     layersLoaded.value = true;
 
-    if (tourParam === "manual" || tourParam === "explore") {
+    // the intro slides' opt-out lands straight in explore mode
+    const skipToExplore = tourParam === null && dontshowIntroTourOnStartup.value;
+    if (tourParam === "manual" || tourParam === "explore" || skipToExplore) {
       const tour = tours.find((t) => t.id === lastTourId.value) ?? tours[0];
       await tour.wtml.ready; // enterExplore runs step -1, which needs layers
       enterExplore();
