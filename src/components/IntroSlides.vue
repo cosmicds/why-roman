@@ -259,6 +259,10 @@ const NUM_SLIDES = 1;
   border: 1px solid var(--accent-color);
 }
 
+.intro-slides-container:not(.intro-slides-small) .dont-show-checkbox {
+  margin-top: 1rem;
+}
+
 #intro-slides .dont-show-checkbox .v-label {
   font-size: 0.9rem !important;
 }
