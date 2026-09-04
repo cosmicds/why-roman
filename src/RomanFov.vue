@@ -2033,7 +2033,7 @@ const activeTour = computed(
 const inTour = computed(() => activeTour.value != null);
 
 const showCallout = ref(false);
-const calloutAlreadyShown = ref(false);
+const calloutAlreadyShown = ref(returning); // a returning visitor has already been oriented
 
 function showExploreCallout() {
   if (calloutAlreadyShown.value) {
