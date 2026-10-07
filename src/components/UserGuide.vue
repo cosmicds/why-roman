@@ -135,7 +135,7 @@
             <easyLink href="https://roman.ipac.caltech.edu/cycle1-approved-programs/2002">
               program
               2002
-            </easyLink>. Footprints derived from its public APT file.
+            </easyLink>. Footprints derived from its public APT file (Mosaic: M31 SF disk all (yr 3 to 5), Winter Only, oriented by Pass plan 1)
           </p>
           <p class="citation">
             Roman WFI apertures from
